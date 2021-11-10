@@ -1,4 +1,4 @@
-package com.dourado.os.Config;
+package com.dourado.os.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,11 +10,14 @@ import com.dourado.os.services.DBService;
 @Configuration
 @Profile("test")
 public class TestConfig {
+
 	@Autowired
 	private DBService dbService;
 
-	@Bean // método vai ser chamado,sempre que a classe for chamada
+	@Bean
 	public void instanciaDB() {
+
 		this.dbService.instanciaDB();
+
 	}
 }

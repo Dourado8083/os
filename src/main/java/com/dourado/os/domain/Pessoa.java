@@ -1,7 +1,6 @@
 package com.dourado.os.domain;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,13 +9,15 @@ import javax.persistence.Id;
 
 import org.hibernate.validator.constraints.br.CPF;
 
-@Entity // estamos informando que vamos criar uma tabela apartir daqui
+@Entity
 public abstract class Pessoa implements Serializable {
 	private static final long serialVersionUID = 1L;
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // o banco que vai criar os id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
+	
 	@CPF
 	private String cpf;
 	private String telefone;
@@ -67,7 +68,11 @@ public abstract class Pessoa implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cpf, id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
@@ -79,7 +84,17 @@ public abstract class Pessoa implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Pessoa other = (Pessoa) obj;
-		return Objects.equals(cpf, other.cpf) && Objects.equals(id, other.id);
+		if (cpf == null) {
+			if (other.cpf != null)
+				return false;
+		} else if (!cpf.equals(other.cpf))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }

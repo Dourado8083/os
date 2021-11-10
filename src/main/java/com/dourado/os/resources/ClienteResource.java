@@ -22,42 +22,73 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.dourado.os.domain.Cliente;
 import com.dourado.os.dtos.ClienteDTO;
 import com.dourado.os.services.ClienteService;
+
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value = "/cliente")
+@RequestMapping(value = "/clientes")
 public class ClienteResource {
+
 	@Autowired
 	private ClienteService service;
 
+	/*
+	 * Busca pelo ID
+	 */
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ClienteDTO> findById(@PathVariable Integer id) {
-		ClienteDTO obj = new ClienteDTO(service.findById(id));
-		return ResponseEntity.ok().body(obj);
+		ClienteDTO objDTO = new ClienteDTO(service.findById(id));
+		return ResponseEntity.ok().body(objDTO);
 	}
 
+	/*
+	 * Lista todos objetos do tipo Cliente na base
+	 */
 	@GetMapping
 	public ResponseEntity<List<ClienteDTO>> findAll() {
 		List<ClienteDTO> listDTO = service.findAll().stream().map(obj -> new ClienteDTO(obj))
 				.collect(Collectors.toList());
+
 		return ResponseEntity.ok().body(listDTO);
 	}
 
+	/*
+	 * Cria um novo Cliente
+	 */
 	@PostMapping
 	public ResponseEntity<ClienteDTO> create(@Valid @RequestBody ClienteDTO objDTO) {
-		Cliente newOBJ = service.create(objDTO);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newOBJ.getId()).toUri();
+		Cliente newObj = service.create(objDTO);
+
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
+
 		return ResponseEntity.created(uri).build();
 	}
 
+	/*
+	 * Atualiza um Cliente
+	 */
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<ClienteDTO> update(@PathVariable Integer id, @Valid @RequestBody ClienteDTO objDTO) {
-		ClienteDTO newOBJ = new ClienteDTO(service.update(id, objDTO));
-		return ResponseEntity.ok().body(newOBJ);
+		ClienteDTO newObj = new ClienteDTO(service.update(id, objDTO));
+		return ResponseEntity.ok().body(newObj);
 	}
+	
+	/*
+	 * Delete Cliente
+	 */
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void>delete(@PathVariable Integer id){
-	service.delete(id);
-	return ResponseEntity.noContent().build();
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 
 }
+
+
+
+
+
+
+
+
+
+

@@ -1,7 +1,6 @@
 package com.dourado.os.domain;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,32 +15,35 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class OS {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private LocalDateTime dataAbertura;
+
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private LocalDateTime dataFechamento;
 	private Integer prioridade;
 	private String observacoes;
 	private Integer status;
+
 	@ManyToOne
 	@JoinColumn(name = "tecnico_id")
 	private Tecnico tecnico;
+
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 
 	public OS() {
-		super(); // sempre que uma order for criada, será adicionado a data atual,sempre que
-					// comer o programa vai iniciar com Prioridade baixa e aberta.
+		super();
 		this.setDataAbertura(LocalDateTime.now());
 		this.setPrioridade(Prioridade.BAIXA);
 		this.setStatus(Status.ABERTO);
 	}
 
-//Caso não tenha valores em prioridade ou status 0 será atribuido como padrão, se não ele pega o código dela..
 	public OS(Integer id, Prioridade prioridade, String observacoes, Status status, Tecnico tecnico, Cliente cliente) {
 		super();
 		this.id = id;
@@ -119,7 +121,10 @@ public class OS {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
@@ -131,7 +136,12 @@ public class OS {
 		if (getClass() != obj.getClass())
 			return false;
 		OS other = (OS) obj;
-		return Objects.equals(id, other.id);
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }

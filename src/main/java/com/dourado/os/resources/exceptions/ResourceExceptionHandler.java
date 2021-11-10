@@ -9,31 +9,52 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.dourado.os.services.exceptions.DataIntegratyViolationException;
 import com.dourado.os.services.exceptions.ObjectNotFoundException;
-import com.dourado.os.services.exceptions.ValidationError;
 
-//Manipulador de exceção da camada de recurso
 @ControllerAdvice
 public class ResourceExceptionHandler {
+
+	/*
+	 * Manipulando exceção para objeto não encontrado
+	 */
 	@ExceptionHandler(ObjectNotFoundException.class)
-	public ResponseEntity<StardardError> objectNotFoundException(ObjectNotFoundException e) {
-		StardardError error = new StardardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(),
-				e.getMessage());
+	public ResponseEntity<StandardError> objectNotFoundException(ObjectNotFoundException e) {
+		StandardError error = new StandardError(System.currentTimeMillis(), 
+				HttpStatus.NOT_FOUND.value(), e.getMessage());
+		
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
+	
+	/*
+	 * Manipulando exceção violação da integridade de dados
+	 */
 	@ExceptionHandler(DataIntegratyViolationException.class)
-	public ResponseEntity<StardardError> DataIntegratyViolationExceptionn(DataIntegratyViolationException e) {
-		StardardError error = new StardardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
-				e.getMessage());
+	public ResponseEntity<StandardError> objectNotFoundException(DataIntegratyViolationException e) {
+		StandardError error = new StandardError(System.currentTimeMillis(), 
+				HttpStatus.BAD_REQUEST.value(), e.getMessage());
+		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
-	//Manipulando a exceção de vazio
+	
+	/*
+	 * Manipulando exceção para campos não preenchidos na criação de um objeto
+	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<StardardError> objectNotFoundException(MethodArgumentNotValidException e) {
-		ValidationError error = new ValidationError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Erro na validação dos campos!");
-	    //Percorrer a lista 
-		for(FieldError x: e.getBindingResult().getFieldErrors()) {
-			error.addErrors(x.getField(),x.getDefaultMessage());
+	public ResponseEntity<StandardError> objectNotFoundException(MethodArgumentNotValidException e) {
+		ValidationError error = new ValidationError(System.currentTimeMillis(), 
+				HttpStatus.BAD_REQUEST.value(), "Erro na validação dos campos!");
+		
+		for(FieldError x : e.getBindingResult().getFieldErrors()) {
+			error.addError(x.getField(), x.getDefaultMessage());
 		}
+		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 }
+
+
+
+
+
+
+
+

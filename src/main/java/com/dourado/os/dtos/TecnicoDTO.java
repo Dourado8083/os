@@ -10,18 +10,21 @@ import com.dourado.os.domain.Tecnico;
 
 public class TecnicoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
+
 	private Integer id;
-	@NotEmpty(message = "O Campo NOME é requerido")
+	
+	@NotEmpty(message = "O campo NOME é requerido")
 	private String nome;
+
 	@CPF
-	@NotEmpty(message = "O Campo CPF é requerido")
+	@NotEmpty(message = "O campo CPF é requerido")
 	private String cpf;
-	@NotEmpty(message = "O Campo TELEFONE é requerido")
+	
+	@NotEmpty(message = "O campo TELEFONE é requerido")
 	private String telefone;
 
 	public TecnicoDTO() {
 		super();
-
 	}
 
 	public TecnicoDTO(Tecnico obj) {

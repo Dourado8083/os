@@ -1,18 +1,19 @@
-package com.dourado.os.services.exceptions;
+package com.dourado.os.resources.exceptions;
 
 import java.io.Serializable;
 
-public class FieldMessage implements Serializable {
+public class FieldMessade implements Serializable {
+
 	private static final long serialVersionUID = 1L;
+
 	private String fieldName;
 	private String message;
 
-	public FieldMessage() {
+	public FieldMessade() {
 		super();
-
 	}
 
-	public FieldMessage(String fieldName, String message) {
+	public FieldMessade(String fieldName, String message) {
 		super();
 		this.fieldName = fieldName;
 		this.message = message;

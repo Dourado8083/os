@@ -1,4 +1,4 @@
-package com.gustavo.os.resources.exceptions;
+package com.dourado.os.resources.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -22,59 +22,73 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.dourado.os.domain.Tecnico;
 import com.dourado.os.dtos.TecnicoDTO;
 import com.dourado.os.services.TecnicoService;
+
 @CrossOrigin("*")
-//Resource são os controller
 @RestController
-//adicionando a anotação, pois estamos setando para acessar o recursos dos tecnico 
 @RequestMapping(value = "/tecnicos")
 public class TecnicoResource {
+
 	@Autowired
 	private TecnicoService service;
+
 	/*
-	 * Pegando técnicos pelo ID
+	 * Busca pelo ID
 	 */
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<TecnicoDTO> findById(@PathVariable Integer id) {
 		TecnicoDTO objDTO = new TecnicoDTO(service.findById(id));
 		return ResponseEntity.ok().body(objDTO);
 	}
-	
-	/*
-	 * Pegando todos os técnicos
-	 */
 
+	/*
+	 * Lista todos objetos do tipo Tecnico na base
+	 */
 	@GetMapping
 	public ResponseEntity<List<TecnicoDTO>> findAll() {
-
 		List<TecnicoDTO> listDTO = service.findAll().stream().map(obj -> new TecnicoDTO(obj))
 				.collect(Collectors.toList());
+
 		return ResponseEntity.ok().body(listDTO);
 	}
+
 	/*
-	 * Criando um Técnico.
+	 * Cria um novo Tecnico
 	 */
 	@PostMapping
-	public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO objDTO){
-		Tecnico newOBJ = service.create(objDTO);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newOBJ.getId()).toUri();
+	public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO objDTO) {
+		Tecnico newObj = service.create(objDTO);
+
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
+
 		return ResponseEntity.created(uri).build();
 	}
-	/*
-	 *Atualizando dados do Técnico.
-	 */
-	
-	@PutMapping(value = "/{id}")
 
-	public ResponseEntity<TecnicoDTO>update(@PathVariable Integer id,@Valid @RequestBody TecnicoDTO objDTO){
-	TecnicoDTO newOBJ = new TecnicoDTO(service.update(id,objDTO));	
-	return ResponseEntity.ok().body(newOBJ);
-	}
 	/*
-	 * Deletando o Técnico
+	 * Atualiza um Tecnico
 	 */
-	@DeleteMapping(value ="/{id}")
-	public ResponseEntity<Void>delete(@PathVariable Integer id){
-		service.delete(id);
-	 return	ResponseEntity.noContent().build();
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<TecnicoDTO> update(@PathVariable Integer id, @Valid @RequestBody TecnicoDTO objDTO) {
+		TecnicoDTO newObj = new TecnicoDTO(service.update(id, objDTO));
+		return ResponseEntity.ok().body(newObj);
 	}
-} 
+	
+	/*
+	 * Delete Tecnico
+	 */
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
+
+}
+
+
+
+
+
+
+
+
+
+

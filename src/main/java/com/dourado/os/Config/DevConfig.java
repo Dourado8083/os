@@ -1,4 +1,4 @@
-package com.dourado.os.Config;
+package com.dourado.os.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,16 +11,21 @@ import com.dourado.os.services.DBService;
 @Configuration
 @Profile("dev")
 public class DevConfig {
-@Autowired
-private DBService dbService;
-@Value("${spring.jpa.hibernate.ddl-auto}")
-private String ddl;
 
-    @Bean // método vai ser chamado,sempre que a classe for chamada
+	@Autowired
+	private DBService dbService;
+
+	@Value("${spring.jpa.hibernate.ddl-auto}")
+	private String ddl;
+
+	@Bean
 	public boolean instanciaDB() {
-	if(ddl.equals("create")) {
-	 this.dbService.instanciaDB();
-	}
-	return false;
+
+		if (ddl.equals("create")) {
+			this.dbService.instanciaDB();
+		}
+
+		return false;
+
 	}
 }

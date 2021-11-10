@@ -1,4 +1,4 @@
-package com.gustavo.os.resources;
+package com.dourado.os.resources;
 
 import java.net.URI;
 import java.util.List;
@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.gustavo.os.dtos.OSDTO;
-import com.gustavo.os.services.OsService;
+import com.dourado.os.dtos.OSDTO;
+import com.dourado.os.services.OsService;
 
 @CrossOrigin("*")
 @RestController

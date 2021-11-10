@@ -10,13 +10,17 @@ import com.dourado.os.domain.Cliente;
 
 public class ClienteDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
+
 	private Integer id;
-	@NotEmpty(message = "O Campo NOME é requerido")
+	
+	@NotEmpty(message = "O campo NOME é requerido")
 	private String nome;
+
 	@CPF
-	@NotEmpty(message = "O Campo CPF é requerido")
+	@NotEmpty(message = "O campo CPF é requerido")
 	private String cpf;
-	@NotEmpty(message = "O Campo TELEFONE é requerido")
+	
+	@NotEmpty(message = "O campo TELEFONE é requerido")
 	private String telefone;
 
 	public ClienteDTO() {
@@ -25,18 +29,10 @@ public class ClienteDTO implements Serializable {
 
 	public ClienteDTO(Cliente obj) {
 		super();
-		this.nome = obj.getNome();
 		this.id = obj.getId();
+		this.nome = obj.getNome();
 		this.cpf = obj.getCpf();
 		this.telefone = obj.getTelefone();
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
 	}
 
 	public Integer getId() {
@@ -45,6 +41,14 @@ public class ClienteDTO implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getCpf() {
@@ -62,5 +66,5 @@ public class ClienteDTO implements Serializable {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	
+
 }
